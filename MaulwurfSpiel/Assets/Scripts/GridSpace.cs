@@ -8,6 +8,7 @@ public class GridSpace : MonoBehaviour
     public Button button;
 
     private GameManager gameManager;
+
     public void SetGameControllerReference(GameManager manager)
     {
         gameManager = manager;

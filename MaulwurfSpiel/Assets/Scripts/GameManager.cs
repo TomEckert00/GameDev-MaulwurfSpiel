@@ -15,12 +15,14 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public Text[] buttonList;
+    public GameObject spawnManager;
     public GameObject gameOverPanel;
     public Text gameOverText;
     public GameObject restartButton;
     public GameObject startInfo;
 
     private int score;
+    public bool isGameActive = false;
 
     void Awake()
     {
@@ -47,12 +49,14 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        isGameActive = true;
         SetBoardInteractable(true);
         startInfo.SetActive(false);
     }
 
     void GameOver()
     {
+        isGameActive = false;
         SetBoardInteractable(false);
         SetGameOverText("Highscore:" + score);
     }
@@ -78,6 +82,16 @@ public class GameManager : MonoBehaviour
         {
             buttonList[i].GetComponentInParent<Button>().interactable = toggle;
         }
+    }
+
+    public bool GetGameStatus()
+    {
+        return isGameActive;
+    }
+
+    public void SetGameStatus(bool status)
+    {
+        isGameActive = status;
     }
 
 }
