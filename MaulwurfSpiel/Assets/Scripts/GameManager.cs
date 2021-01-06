@@ -1,50 +1,83 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using TMPro;
+
+[System.Serializable]
+public class Player
+{
+    public Image panel;
+    public Text text;
+    public Button button;
+}
 
 public class GameManager : MonoBehaviour
 {
-    public Button[] gameFields;
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI timeText;
+    public Text[] buttonList;
+    public GameObject gameOverPanel;
+    public Text gameOverText;
+    public GameObject restartButton;
+    public GameObject startInfo;
+
     private int score;
-    private int highscore;
-    private Time time;
 
-    private bool gameIsActive = true;
-
-    public GameObject molePrefab;
-
-    //public Mole molePrefab = new Mole();
-
-    private float intervalTime = 1.0f;
-    void Start()
+    void Awake()
     {
-        StartCoroutine(SpawnMoles());
+        score = 0;
+        scoreText.SetText("Score: " + score);
+        SetGameControllerReferenceOnButtons();
+        gameOverPanel.SetActive(false);
+        restartButton.SetActive(false);
     }
 
-    IEnumerator SpawnMoles()
+    public void SetGameControllerReferenceOnButtons()
     {
-        while (gameIsActive)
+        for (int i = 0; i < buttonList.Length; i++)
         {
-            SpawnMoleOnRandomPosition();
-            yield return new WaitForSeconds(1);
+            buttonList[i].GetComponentInParent<GridSpace>().SetGameControllerReference(this);
         }
     }
 
-    public void SpawnMoleOnRandomPosition()
+    public void CountUp()
     {
-        int randomIndex = GenerateRandomNumber();
-        Instantiate(molePrefab);
-        molePrefab.gameObject.transform.position = new Vector3(0, 0, 0);
-        Debug.Log(randomIndex);
+        score++;
+        scoreText.SetText("Score: " + score);
     }
 
-    public int GenerateRandomNumber()
+    public void StartGame()
     {
-        return Random.Range(0, gameFields.Length);
+        SetBoardInteractable(true);
+        startInfo.SetActive(false);
+    }
+
+    void GameOver()
+    {
+        SetBoardInteractable(false);
+        SetGameOverText("Highscore:" + score);
+    }
+
+
+    void SetGameOverText(string value)
+    {
+        gameOverPanel.SetActive(true);
+        gameOverText.text = value;
+    }
+
+    public void RestartGame()
+    {
+        score = 0;
+        gameOverPanel.SetActive(false);
+        restartButton.SetActive(false);
+        startInfo.SetActive(true);
+    }
+
+    private void SetBoardInteractable(bool toggle)
+    {
+        for (int i = 0; i < buttonList.Length; i++)
+        {
+            buttonList[i].GetComponentInParent<Button>().interactable = toggle;
+        }
     }
 
 }
