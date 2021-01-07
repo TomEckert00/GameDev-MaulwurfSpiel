@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public Text[] buttonList;
-    public GameObject spawnManager;
+    public SpawnManager spawnManager;
     public GameObject gameOverPanel;
     public Text gameOverText;
     public GameObject restartButton;
@@ -47,9 +47,23 @@ public class GameManager : MonoBehaviour
         scoreText.SetText("Score: " + score);
     }
 
+    public Transform GetButtonTransformWithRandomIndex()
+    {
+        Transform result;
+        result = buttonList[GetRandomIndexOfGrid()].GetComponentInParent<Transform>();
+        Debug.Log(result.position);
+        return result;
+    }
+
+    private int GetRandomIndexOfGrid()
+    {
+        return Random.Range(0, buttonList.Length);
+    }
+
     public void StartGame()
     {
         isGameActive = true;
+        spawnManager.StartSpawningLoop();
         SetBoardInteractable(true);
         startInfo.SetActive(false);
     }

@@ -695,7 +695,7 @@ GameObject:
   - component: {fileID: 585429794}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -906,6 +906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd319c018a132b4db65e40fb2b79c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnObject: {fileID: 922353156596890050, guid: b4f88eb30a072cc458a126363416507c,
+    type: 3}
   gameManager: {fileID: 1636254424}
   gameIsActive: 0
 --- !u!4 &756517623
@@ -2263,7 +2265,7 @@ MonoBehaviour:
   - {fileID: 1646790838}
   - {fileID: 1911352743}
   - {fileID: 1161556253}
-  spawnManager: {fileID: 0}
+  spawnManager: {fileID: 756517622}
   gameOverPanel: {fileID: 1403158485}
   gameOverText: {fileID: 1531459294}
   restartButton: {fileID: 2143585721}
