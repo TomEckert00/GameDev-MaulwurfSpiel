@@ -10,9 +10,12 @@ public class SpawnManager : MonoBehaviour
 
     public bool gameIsActive;
 
+    private int spawnObjectsInGame;
+
     public void StartSpawningLoop()
     {
-        gameIsActive = gameManager.GetGameStatus();
+        spawnObjectsInGame = 0;
+        GetGameStatusFromGameManager();
         StartCoroutine(StartGameLoop());
     }
 
@@ -21,9 +24,33 @@ public class SpawnManager : MonoBehaviour
         
         while (gameIsActive)
         {
-            gameIsActive = gameManager.GetGameStatus();
-            Instantiate(spawnObject,gameManager.GetButtonTransformWithRandomIndex().position,Quaternion.identity,GameObject.FindGameObjectWithTag("Canvas").transform);
+            // check if game is still active
+            GetGameStatusFromGameManager();
+           
+            if(spawnObjectsInGame <9)
+            {
+                int index = gameManager.GetRandomIndexOfGrid();
+                while (gameManager.IsGridOfIndexFilled(index))
+                {
+                    index = gameManager.GetRandomIndexOfGrid();
+                }
+                Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(index);
+                Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+                gameManager.SetGridSpaceContainsSpawnObjectOfIndex(index, true);
+                spawnObjectsInGame++;
+            }
+            else
+            {
+                gameIsActive = false;
+                Debug.Log("Stopped the game due to 9 objects");
+            }
             yield return new WaitForSeconds(1);
+            Debug.Log("Wait");
         }
+    }
+
+    private void GetGameStatusFromGameManager()
+    {
+        gameIsActive = gameManager.GetGameStatus();
     }
 }

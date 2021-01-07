@@ -11,16 +11,14 @@ public class GridSpace : MonoBehaviour
 
     private bool containsSpawnObject;
 
-    public bool ContainsSpawnObject
+    public bool GetContainsSpawnObject()
     {
-        get
-        {
-            return containsSpawnObject;
-        }
-        set
-        {
-            containsSpawnObject = value;
-        }
+        return containsSpawnObject;
+    }
+
+    public void SetContainsSpawnObject(bool boolean)
+    {
+        containsSpawnObject = boolean;
     }
 
     public void SetGameControllerReference(GameManager manager)

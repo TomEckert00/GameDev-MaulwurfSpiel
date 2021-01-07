@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
@@ -41,21 +41,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsGridOfIndexFilled(int index)
+    {
+        return buttonList[index].GetComponentInParent<GridSpace>().GetContainsSpawnObject();
+    }
+
     public void CountUp()
     {
         score++;
         scoreText.SetText("Score: " + score);
     }
 
-    public Transform GetButtonTransformWithRandomIndex()
+    public Vector3 GetButtonPositionWithIndex(int index)
     {
-        Transform result;
-        result = buttonList[GetRandomIndexOfGrid()].GetComponentInParent<Transform>();
-        Debug.Log(result.position);
-        return result;
+        return buttonList[index].GetComponentInParent<Transform>().position;
     }
 
-    private int GetRandomIndexOfGrid()
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1);
+    }
+
+    public void SetGridSpaceContainsSpawnObjectOfIndex(int index, bool boolean)
+    {
+        buttonList[index].GetComponentInParent<GridSpace>().SetContainsSpawnObject(boolean);
+    }
+
+
+    public int GetRandomIndexOfGrid()
     {
         return Random.Range(0, buttonList.Length);
     }
