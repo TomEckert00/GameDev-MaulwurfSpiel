@@ -11,14 +11,10 @@ public class GridSpace : MonoBehaviour
 
     private bool containsSpawnObject;
 
-    public bool GetContainsSpawnObject()
+    public bool ContainsSpawnObject
     {
-        return containsSpawnObject;
-    }
-
-    public void SetContainsSpawnObject(bool boolean)
-    {
-        containsSpawnObject = boolean;
+        get { return containsSpawnObject; }
+        set { containsSpawnObject = value; }
     }
 
     public void SetGameControllerReference(GameManager manager)
@@ -28,6 +24,6 @@ public class GridSpace : MonoBehaviour
 
     public void CountUp()
     {
-        gameManager.CountUp();
+        gameManager.CountScoreOneUp();
     }
 }

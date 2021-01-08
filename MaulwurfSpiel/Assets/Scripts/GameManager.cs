@@ -3,32 +3,42 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 
-[System.Serializable]
-public class Player
-{
-    public Image panel;
-    public Text text;
-    public Button button;
-}
-
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public Text[] buttonList;
-    public SpawnManager spawnManager;
-    public GameObject gameOverPanel;
-    public Text gameOverText;
     public GameObject restartButton;
     public GameObject startInfo;
+    public GameObject gameOverPanel;
+    public Text gameOverText;
+
+    public SpawnManager spawnManager;
 
     private int score;
-    public bool isGameActive = false;
+    private bool isGameActive = false;
+
+    public bool IsGameActive
+    {
+        get { return isGameActive; }
+        set { isGameActive = value; }
+    }
 
     void Awake()
     {
-        score = 0;
-        scoreText.SetText("Score: " + score);
+        InitializeVariablesWithDefaultValues();
+
+        PreparePanelsAndTexts();
+        
         SetGameControllerReferenceOnButtons();
+    }
+
+    private void InitializeVariablesWithDefaultValues() {
+        score = 0;
+    }
+
+    private void PreparePanelsAndTexts()
+    {
+        scoreText.SetText("Score: " + score);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
     }
@@ -41,32 +51,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool IsGridOfIndexFilled(int index)
-    {
-        return buttonList[index].GetComponentInParent<GridSpace>().GetContainsSpawnObject();
-    }
-
-    public void CountUp()
+    public void CountScoreOneUp()
     {
         score++;
         scoreText.SetText("Score: " + score);
+    }
+
+    public bool IsGridOfIndexFilled(int index)
+    {
+        return GetGridSpaceOfButtonWithIndex(index).ContainsSpawnObject;
+    }
+    private GridSpace GetGridSpaceOfButtonWithIndex(int index)
+    {
+        return buttonList[index].GetComponentInParent<GridSpace>();
+    }
+
+    public void SetGridSpaceContainsSpawnObjectOfIndex(int index, bool boolean)
+    {
+        GetGridSpaceOfButtonWithIndex(index).ContainsSpawnObject = boolean;
     }
 
     public Vector3 GetButtonPositionWithIndex(int index)
     {
         return buttonList[index].GetComponentInParent<Transform>().position;
     }
-
-    IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(1);
-    }
-
-    public void SetGridSpaceContainsSpawnObjectOfIndex(int index, bool boolean)
-    {
-        buttonList[index].GetComponentInParent<GridSpace>().SetContainsSpawnObject(boolean);
-    }
-
 
     public int GetRandomIndexOfGrid()
     {
@@ -110,15 +118,4 @@ public class GameManager : MonoBehaviour
             buttonList[i].GetComponentInParent<Button>().interactable = toggle;
         }
     }
-
-    public bool GetGameStatus()
-    {
-        return isGameActive;
-    }
-
-    public void SetGameStatus(bool status)
-    {
-        isGameActive = status;
-    }
-
 }

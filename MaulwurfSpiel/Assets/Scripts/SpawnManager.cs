@@ -27,30 +27,35 @@ public class SpawnManager : MonoBehaviour
             // check if game is still active
             GetGameStatusFromGameManager();
            
+            //check if all spaces are filled
             if(spawnObjectsInGame <9)
             {
-                int index = gameManager.GetRandomIndexOfGrid();
-                while (gameManager.IsGridOfIndexFilled(index))
+                int randomIndex = gameManager.GetRandomIndexOfGrid();
+                while (gameManager.IsGridOfIndexFilled(randomIndex))
                 {
-                    index = gameManager.GetRandomIndexOfGrid();
+                    randomIndex = gameManager.GetRandomIndexOfGrid();
                 }
-                Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(index);
-                Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
-                gameManager.SetGridSpaceContainsSpawnObjectOfIndex(index, true);
-                spawnObjectsInGame++;
+                SpawnTheObjectWithIndex(randomIndex);
             }
             else
             {
-                gameIsActive = false;
-                Debug.Log("Stopped the game due to 9 objects");
+                Debug.Log("board full, nothing spawned");
             }
             yield return new WaitForSeconds(1);
-            Debug.Log("Wait");
+            Debug.Log("Waited one Second");
         }
+    }
+
+    private void SpawnTheObjectWithIndex(int randomIndex)
+    {
+        Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(randomIndex);
+        Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+        gameManager.SetGridSpaceContainsSpawnObjectOfIndex(randomIndex, true);
+        spawnObjectsInGame++;
     }
 
     private void GetGameStatusFromGameManager()
     {
-        gameIsActive = gameManager.GetGameStatus();
+        gameIsActive = gameManager.IsGameActive;
     }
 }
