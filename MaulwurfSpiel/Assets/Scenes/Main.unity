@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -356,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -581,7 +581,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd319c018a132b4db65e40fb2b79c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnObject: {fileID: 922353156596890050, guid: b4f88eb30a072cc458a126363416507c,
+  spawnObject: {fileID: 7970004979516679444, guid: 37c817de2aaa0084c8d740ac2562ac84,
     type: 3}
   gameManager: {fileID: 1636254424}
   gameIsActive: 0
@@ -918,7 +918,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756517621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 636.3006, y: 487.2694, z: -78.02121}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1052,7 +1052,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -1226,7 +1226,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -1376,7 +1376,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -1526,7 +1526,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -2265,12 +2265,11 @@ MonoBehaviour:
   - {fileID: 1646790838}
   - {fileID: 1911352743}
   - {fileID: 1161556253}
-  spawnManager: {fileID: 756517622}
-  gameOverPanel: {fileID: 1403158485}
-  gameOverText: {fileID: 1531459294}
   restartButton: {fileID: 2143585721}
   startInfo: {fileID: 1419308080}
-  isGameActive: 0
+  gameOverPanel: {fileID: 1403158485}
+  gameOverText: {fileID: 1531459294}
+  spawnManager: {fileID: 756517622}
 --- !u!4 &1636254425
 Transform:
   m_ObjectHideFlags: 0
@@ -2462,7 +2461,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
@@ -2740,7 +2739,7 @@ PrefabInstance:
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2710930030325688812, guid: c3f3972246784d04f915a602ccb26669,
         type: 3}
