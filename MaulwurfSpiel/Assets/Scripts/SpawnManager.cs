@@ -12,6 +12,12 @@ public class SpawnManager : MonoBehaviour
 
     private int spawnObjectsInGame;
 
+    public int SpawnObjectsInGame
+    {
+        get { return spawnObjectsInGame; }
+        set { spawnObjectsInGame = value; }
+    }
+
     public void StartSpawningLoop()
     {
         spawnObjectsInGame = 0;
@@ -39,18 +45,18 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("board full, nothing spawned");
+                //Debug.Log("board full, nothing spawned");
             }
             yield return new WaitForSeconds(1);
-            Debug.Log("Waited one Second");
         }
     }
 
     private void SpawnTheObjectWithIndex(int randomIndex)
     {
         Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(randomIndex);
-        Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+        GameObject so = Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         gameManager.SetGridSpaceContainsSpawnObjectOfIndex(randomIndex, true);
+        gameManager.SetSpawnedObjectReferenceInGridSpace(randomIndex, so);
         spawnObjectsInGame++;
     }
 

@@ -9,7 +9,15 @@ public class GridSpace : MonoBehaviour
 
     private GameManager gameManager;
 
-    private bool containsSpawnObject;
+    public GameObject spawnedObject;
+
+    public GameObject SpawnedObject
+    {
+        get {return spawnedObject; }
+        set { spawnedObject = value; }
+    }
+
+    public bool containsSpawnObject;
 
     public bool ContainsSpawnObject
     {
@@ -22,8 +30,16 @@ public class GridSpace : MonoBehaviour
         gameManager = manager;
     }
 
-    public void CountUp()
+    public void DestroyItem()
     {
-        gameManager.CountScoreOneUp();
+        if (spawnedObject != null)
+        {
+            gameManager.CountScoreOneUp();
+            gameManager.CountItemCountDownOnBoard();
+            Debug.Log("kill item "+ spawnedObject.name);
+            Destroy(spawnedObject);
+            ContainsSpawnObject = false;
+            spawnedObject = null;
+        }
     }
 }

@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
         scoreText.SetText("Score: " + score);
     }
 
+    public void CountItemCountDownOnBoard()
+    {
+        spawnManager.SpawnObjectsInGame -= 1;
+    }
+
     public bool IsGridOfIndexFilled(int index)
     {
         return GetGridSpaceOfButtonWithIndex(index).ContainsSpawnObject;
@@ -69,6 +74,11 @@ public class GameManager : MonoBehaviour
     public void SetGridSpaceContainsSpawnObjectOfIndex(int index, bool boolean)
     {
         GetGridSpaceOfButtonWithIndex(index).ContainsSpawnObject = boolean;
+    }
+
+    public void SetSpawnedObjectReferenceInGridSpace(int index, GameObject spawnObjectReference)
+    {
+        GetGridSpaceOfButtonWithIndex(index).SpawnedObject = spawnObjectReference;
     }
 
     public Vector3 GetButtonPositionWithIndex(int index)
