@@ -34,11 +34,7 @@ public class GridSpace : MonoBehaviour
     {
         if (spawnedObject != null)
         {
-            gameManager.UpdateScore(1);
-            gameManager.CountItemCountDownOnBoard();
-            Destroy(spawnedObject);
-            ContainsSpawnObject = false;
-            spawnedObject = null;
+            DestroySpawnObjectAndUpdateEverything(1);
         }
         else
         {
@@ -48,20 +44,24 @@ public class GridSpace : MonoBehaviour
 
     public IEnumerator InitiateSelfDestruction() 
     {
-        Debug.Log("wait 2sec");
         yield return new WaitForSeconds(2);
         if (spawnedObject != null)
         {
             Debug.Log("initiate self destruction");
-            Destroy(spawnedObject);
-            gameManager.UpdateScore(-1);
-            gameManager.CountItemCountDownOnBoard();
-            containsSpawnObject = false;
-            spawnedObject = null;
+            DestroySpawnObjectAndUpdateEverything(-1);
         }
         else
         {
             Debug.Log("already gone!");
         }
+    }
+
+    private void DestroySpawnObjectAndUpdateEverything(int value)
+    {
+        Destroy(spawnedObject);
+        gameManager.UpdateScore(value);
+        gameManager.CountItemCountDownOnBoard();
+        containsSpawnObject = false;
+        spawnedObject = null;
     }
 }
