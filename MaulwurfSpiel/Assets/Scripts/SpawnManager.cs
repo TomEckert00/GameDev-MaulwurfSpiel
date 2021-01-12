@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject spawnObject;
+    public GameObject[] spawnObjects;
 
     public GameManager gameManager;
 
@@ -45,7 +46,7 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                //Debug.Log("board full, nothing spawned");
+                Debug.Log("board full, nothing spawned");
             }
             yield return new WaitForSeconds(1);
         }
@@ -54,10 +55,17 @@ public class SpawnManager : MonoBehaviour
     private void SpawnTheObjectWithIndex(int randomIndex)
     {
         Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(randomIndex);
-        GameObject so = Instantiate(spawnObject, positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+        GameObject so = Instantiate(getRandomSpawnObject(), positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         gameManager.SetGridSpaceContainsSpawnObjectOfIndex(randomIndex, true);
         gameManager.SetSpawnedObjectReferenceInGridSpace(randomIndex, so);
+        gameManager.InitiateSelfDestruction(randomIndex);
         spawnObjectsInGame++;
+    }
+
+    private GameObject getRandomSpawnObject()
+    {
+        int randomIndex = UnityEngine.Random.Range(0,spawnObjects.Length);
+        return spawnObjects[randomIndex];
     }
 
     private void GetGameStatusFromGameManager()

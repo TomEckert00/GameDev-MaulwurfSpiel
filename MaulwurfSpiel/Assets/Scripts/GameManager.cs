@@ -51,9 +51,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CountScoreOneUp()
+    public void UpdateScore(int value)
     {
-        score++;
+        score+= value;
         scoreText.SetText("Score: " + score);
     }
 
@@ -79,6 +79,11 @@ public class GameManager : MonoBehaviour
     public void SetSpawnedObjectReferenceInGridSpace(int index, GameObject spawnObjectReference)
     {
         GetGridSpaceOfButtonWithIndex(index).SpawnedObject = spawnObjectReference;
+    }
+
+    public void InitiateSelfDestruction(int index)
+    {
+        StartCoroutine(GetGridSpaceOfButtonWithIndex(index).InitiateSelfDestruction());
     }
 
     public Vector3 GetButtonPositionWithIndex(int index)
