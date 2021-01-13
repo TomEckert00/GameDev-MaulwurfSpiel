@@ -34,7 +34,7 @@ public class GridSpace : MonoBehaviour
     {
         if (spawnedObject != null)
         {
-            DestroySpawnObjectAndUpdateEverything(1);
+            DestroySpawnObjectAndUpdateEverything(SpawnObjectReference().PointsIfDestroyed);
         }
         else
         {
@@ -42,13 +42,19 @@ public class GridSpace : MonoBehaviour
         }
     }
 
+    private SpawnObject SpawnObjectReference()
+    {
+        return spawnedObject.GetComponent<SpawnObject>();
+    }
+
+
     public IEnumerator InitiateSelfDestruction() 
     {
         yield return new WaitForSeconds(2);
         if (spawnedObject != null)
         {
             Debug.Log("initiate self destruction");
-            DestroySpawnObjectAndUpdateEverything(-1);
+            DestroySpawnObjectAndUpdateEverything(SpawnObjectReference().PointsIfMissed);
         }
         else
         {
