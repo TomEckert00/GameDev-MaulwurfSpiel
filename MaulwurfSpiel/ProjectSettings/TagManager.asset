@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Canvas
+  - PowerUp_Heart
+  - GoodMole
   layers:
   - Default
   - TransparentFX

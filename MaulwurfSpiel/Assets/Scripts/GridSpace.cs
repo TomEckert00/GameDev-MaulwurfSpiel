@@ -34,6 +34,7 @@ public class GridSpace : MonoBehaviour
     {
         if (spawnedObject != null)
         {
+            CheckSpawnObjectForSpecialEffects();
             DestroySpawnObjectAndUpdateEverything(SpawnObjectReference().PointsIfDestroyed);
         }
         else
@@ -43,6 +44,13 @@ public class GridSpace : MonoBehaviour
         }
     }
 
+    private void CheckSpawnObjectForSpecialEffects()
+    {
+        if (spawnedObject.CompareTag("PowerUp_Heart"))
+        {
+            gameManager.UpdateLives(1);
+        }
+    }
     private SpawnObject SpawnObjectReference()
     {
         return spawnedObject.GetComponent<SpawnObject>();
@@ -60,7 +68,10 @@ public class GridSpace : MonoBehaviour
         {
             Debug.Log("initiate self destruction");
             DestroySpawnObjectAndUpdateEverything(SpawnObjectReference().PointsIfMissed);
-            gameManager.UpdateLives(-1);
+            if(!spawnedObject.CompareTag("PowerUp_Heart") || !spawnedObject.CompareTag("GoodMole"))
+            {
+                gameManager.UpdateLives(-1);
+            }
         }
         else
         {
