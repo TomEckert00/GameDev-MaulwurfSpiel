@@ -55,14 +55,14 @@ public class SpawnManager : MonoBehaviour
     private void SpawnTheObjectWithIndex(int randomIndex)
     {
         Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(randomIndex);
-        GameObject so = Instantiate(getRandomSpawnObject(), positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
+        GameObject so = Instantiate(GetRandomSpawnObject(), positionOfSpawnObject, Quaternion.identity, GameObject.FindGameObjectWithTag("Canvas").transform);
         gameManager.SetGridSpaceContainsSpawnObjectOfIndex(randomIndex, true);
         gameManager.SetSpawnedObjectReferenceInGridSpace(randomIndex, so);
         gameManager.InitiateSelfDestruction(randomIndex);
         spawnObjectsInGame++;
     }
 
-    private GameObject getRandomSpawnObject()
+    private GameObject GetRandomSpawnObject()
     {
         int randomIndex = UnityEngine.Random.Range(0,spawnObjects.Length);
         return spawnObjects[randomIndex];
