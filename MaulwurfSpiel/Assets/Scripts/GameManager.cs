@@ -6,6 +6,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public Text[] lifeSlots = new Text[3];
     public Text[] buttonList;
     public GameObject restartButton;
     public GameObject startInfo;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     public SpawnManager spawnManager;
 
     private int score;
+    private int currentLives;
     private bool isGameActive = false;
 
     public bool IsGameActive
@@ -25,29 +27,33 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        InitializeVariablesWithDefaultValues();
+        InitializeVariablesWithStartValues();
 
         PreparePanelsAndTexts();
         
         SetGameControllerReferenceOnButtons();
     }
 
-    private void InitializeVariablesWithDefaultValues() {
+    private void InitializeVariablesWithStartValues() {
         score = 0;
+        currentLives = 3;
     }
 
     private void PreparePanelsAndTexts()
     {
+        foreach (Text slot in lifeSlots){
+            slot.text = "";
+        }
         scoreText.SetText("Score: " + score);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
+        ClearLifeSlots();
     }
 
     public void SetGameControllerReferenceOnButtons()
     {
-        for (int i = 0; i < buttonList.Length; i++)
-        {
-            buttonList[i].GetComponentInParent<GridSpace>().SetGameControllerReference(this);
+        foreach ( Text button in buttonList) { 
+            button.GetComponentInParent<GridSpace>().SetGameControllerReference(this);
         }
     }
 
@@ -106,11 +112,21 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
+        StartCoroutine(ClearAllGridSpaces());
         isGameActive = false;
         SetBoardInteractable(false);
         SetGameOverText("Highscore:" + score);
+        restartButton.SetActive(true);
     }
 
+    public IEnumerator ClearAllGridSpaces()
+    {
+        yield return new WaitForSeconds(0.001f);
+        foreach (Text button in buttonList)
+        {
+            button.GetComponentInParent<GridSpace>().ClearGridSpaceImmediatly();
+        }
+    }
 
     void SetGameOverText(string value)
     {
@@ -120,7 +136,8 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        score = 0;
+        InitializeVariablesWithStartValues();
+        PreparePanelsAndTexts();
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
         startInfo.SetActive(true);
@@ -131,6 +148,41 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].GetComponentInParent<Button>().interactable = toggle;
+        }
+    }
+
+    public void UpdateLives(int i)
+    {
+        currentLives += i;
+        if (currentLives > 3)
+        {
+            currentLives = 3;
+            ClearLifeSlots();
+        }
+        else if(currentLives == 3)
+        {
+            ClearLifeSlots();
+        }
+        else if(currentLives == 2)
+        {
+            lifeSlots[0].text = "X";
+            lifeSlots[1].text = "";
+        }
+        else if(currentLives == 1)
+        {
+            lifeSlots[1].text = "X";
+        }
+        else
+        {
+            lifeSlots[2].text = "X";
+            GameOver();
+        }
+    }
+    private void ClearLifeSlots()
+    {
+        foreach (Text text in lifeSlots)
+        {
+            text.text = "";
         }
     }
 }
