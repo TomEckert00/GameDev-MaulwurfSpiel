@@ -28,7 +28,6 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator StartGameLoop()
     {
-        
         while (gameIsActive)
         {
             // check if game is still active
