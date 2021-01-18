@@ -39,6 +39,7 @@ public class GridSpace : MonoBehaviour
         else
         {
             gameManager.UpdateScore(-1);
+            gameManager.UpdateLives(-1);
         }
     }
 
@@ -47,6 +48,10 @@ public class GridSpace : MonoBehaviour
         return spawnedObject.GetComponent<SpawnObject>();
     }
 
+    public void ClearGridSpaceImmediatly()
+    {
+        DestroySpawnObjectAndUpdateEverything(0);
+    }
 
     public IEnumerator InitiateSelfDestruction() 
     {
@@ -55,6 +60,7 @@ public class GridSpace : MonoBehaviour
         {
             Debug.Log("initiate self destruction");
             DestroySpawnObjectAndUpdateEverything(SpawnObjectReference().PointsIfMissed);
+            gameManager.UpdateLives(-1);
         }
         else
         {
