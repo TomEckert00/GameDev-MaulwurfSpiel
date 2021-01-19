@@ -9,7 +9,7 @@ public class SpawnObject : MonoBehaviour
 
     public int PointsIfMissed
     {
-        get{ return pointsIfMissed; }
+        get { return pointsIfMissed; }
         set { pointsIfMissed = value; }
     }
 

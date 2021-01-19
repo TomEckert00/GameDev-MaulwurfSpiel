@@ -6,6 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI multiplierText;
+    public TextMeshProUGUI streakText;
     public Text[] lifeSlots = new Text[3];
     public Text[] buttonList;
     public GameObject restartButton;
@@ -17,6 +19,8 @@ public class GameManager : MonoBehaviour
 
     private int score;
     private int currentLives;
+    private int streak;
+    private int currentMultiplier;
     private bool isGameActive = false;
 
     public bool IsGameActive
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour
     private void InitializeVariablesWithStartValues() {
         score = 0;
         currentLives = 3;
+        currentMultiplier = 1;
+        streak = 0;
     }
 
     private void PreparePanelsAndTexts()
@@ -45,6 +51,8 @@ public class GameManager : MonoBehaviour
             slot.text = "";
         }
         scoreText.SetText("Score: " + score);
+        multiplierText.SetText("Multiplier: " + currentMultiplier);
+        streakText.SetText("Streak: " + streak);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
         ClearLifeSlots();
@@ -59,8 +67,37 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int value)
     {
-        score+= value;
+        if(value > 0) {
+            streak += 1;
+            streakText.SetText("Streak: " + streak);
+            UpdateMultiplier();
+            multiplierText.SetText("Multiplier: " + currentMultiplier);
+            score += value * currentMultiplier;
+        }
+        else if (value < 0)
+        {
+            score += value;
+            if(score <= 0) { score = 0; }
+            streak = 0;
+            streakText.SetText("Streak: " + streak);
+            currentMultiplier = 1;
+            multiplierText.SetText("Multiplier: " + currentMultiplier);
+        }
         scoreText.SetText("Score: " + score);
+    }
+
+    private void UpdateMultiplier()
+    {
+        Debug.Log("CurrentMultiplier: " + currentMultiplier);
+        if(streak % 10 == 0 && streak != 0)
+        {
+            currentMultiplier = (streak / 10)+1;
+        }
+        if(currentMultiplier > 8)
+        {
+            currentMultiplier = 8;
+        }
+        Debug.Log("Updated Multiplier: " + currentMultiplier);
     }
 
     public void CountItemCountDownOnBoard()
@@ -104,10 +141,13 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        isGameActive = true;
-        spawnManager.StartSpawningLoop();
-        SetBoardInteractable(true);
-        startInfo.SetActive(false);
+        if (!isGameActive)
+        {
+            isGameActive = true;
+            startInfo.SetActive(false);
+            spawnManager.StartSpawningLoop();
+            SetBoardInteractable(true);
+        }
     }
 
     void GameOver()
@@ -136,10 +176,10 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        restartButton.SetActive(false);
         InitializeVariablesWithStartValues();
         PreparePanelsAndTexts();
         gameOverPanel.SetActive(false);
-        restartButton.SetActive(false);
         startInfo.SetActive(true);
     }
 

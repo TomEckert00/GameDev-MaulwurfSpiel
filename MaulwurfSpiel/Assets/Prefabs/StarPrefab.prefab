@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsIfMissed: 0
-  pointsIfDestroyed: 50
+  pointsIfDestroyed: 10

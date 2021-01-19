@@ -88,5 +88,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d37625d2fa9361449faf65ec4336639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsIfMissed: 10
-  pointsIfDestroyed: -30
+  pointsIfMissed: 1
+  pointsIfDestroyed: -10
