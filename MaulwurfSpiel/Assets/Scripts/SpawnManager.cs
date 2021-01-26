@@ -69,7 +69,7 @@ public class SpawnManager : MonoBehaviour
                 Debug.Log("board full, nothing spawned");
             }
             UpdateSpawnDelay();
-            yield return new WaitForSeconds(spawnDelay);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
@@ -81,7 +81,7 @@ public class SpawnManager : MonoBehaviour
         {
             for(int i = 0; i < multi; i++)
             {
-                spawnDelay -= 0.1f;
+                spawnDelay -= 0.05f;
             }
         }
     }

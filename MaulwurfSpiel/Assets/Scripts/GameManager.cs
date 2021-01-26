@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class GameManager : MonoBehaviour
     public Text[] lifeSlots = new Text[3];
     public Text[] buttonList;
     public GameObject restartButton;
-    public GameObject startInfo;
     public GameObject gameOverPanel;
     public Text gameOverText;
 
@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
         PreparePanelsAndTexts();
         
         SetGameControllerReferenceOnButtons();
+
+        StartCoroutine(StartGame());
     }
 
     private void InitializeVariablesWithStartValues() {
@@ -57,8 +59,8 @@ public class GameManager : MonoBehaviour
             slot.text = "";
         }
         scoreText.SetText("Score: " + score);
-        multiplierText.SetText("Multiplier: " + currentMultiplier);
-        streakText.SetText("Streak: " + streak);
+        multiplierText.SetText("Multiplikator: " + currentMultiplier);
+        streakText.SetText("Am Stück: " + streak);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
         ClearLifeSlots();
@@ -75,9 +77,9 @@ public class GameManager : MonoBehaviour
     {
         if(value > 0) {
             streak += 1;
-            streakText.SetText("Streak: " + streak);
+            streakText.SetText("Am Stück: " + streak);
             UpdateMultiplier();
-            multiplierText.SetText("Multiplier: " + currentMultiplier);
+            multiplierText.SetText("Multiplikator: " + currentMultiplier);
             score += value * currentMultiplier;
         }
         else if (value < 0)
@@ -85,9 +87,9 @@ public class GameManager : MonoBehaviour
             score += value;
             if(score <= 0) { score = 0; }
             streak = 0;
-            streakText.SetText("Streak: " + streak);
+            streakText.SetText("Am Stück: " + streak);
             currentMultiplier = 1;
-            multiplierText.SetText("Multiplier: " + currentMultiplier);
+            multiplierText.SetText("Multiplikator: " + currentMultiplier);
         }
         scoreText.SetText("Score: " + score);
     }
@@ -145,12 +147,12 @@ public class GameManager : MonoBehaviour
         return Random.Range(0, buttonList.Length);
     }
 
-    public void StartGame()
+    private IEnumerator StartGame()
     {
+        yield return new WaitForSeconds(1);
         if (!isGameActive)
         {
             isGameActive = true;
-            startInfo.SetActive(false);
             spawnManager.StartSpawningLoop();
             SetBoardInteractable(true);
         }
@@ -161,7 +163,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ClearAllGridSpaces());
         isGameActive = false;
         SetBoardInteractable(false);
-        SetGameOverText("Highscore:" + score);
+        SetGameOverText("Score:" + score);
+        UpdateHighScore();
         restartButton.SetActive(true);
     }
 
@@ -180,13 +183,17 @@ public class GameManager : MonoBehaviour
         gameOverText.text = value;
     }
 
-    public void RestartGame()
+    public void BackToMenu()
     {
-        restartButton.SetActive(false);
-        InitializeVariablesWithStartValues();
-        PreparePanelsAndTexts();
-        gameOverPanel.SetActive(false);
-        startInfo.SetActive(true);
+        SceneManager.LoadScene(0);
+    }
+
+    private void UpdateHighScore()
+    {
+        if (score > PlayerPrefs.GetInt("HighScoreStorage"))
+        {
+            PlayerPrefs.SetInt("HighScoreStorage", score);
+        }
     }
 
     private void SetBoardInteractable(bool toggle)
