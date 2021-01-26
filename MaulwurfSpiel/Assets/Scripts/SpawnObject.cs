@@ -6,6 +6,7 @@ public class SpawnObject : MonoBehaviour
 {
     public int pointsIfMissed;
     public int pointsIfDestroyed;
+    public int spawnRatePercent;
 
     public int PointsIfMissed
     {
@@ -17,5 +18,10 @@ public class SpawnObject : MonoBehaviour
     {
         get { return pointsIfDestroyed; }
         set { pointsIfDestroyed = value; }
+    }
+
+    public int SpawnRatePercent {
+        get { return spawnRatePercent; }
+        set { spawnRatePercent = value; }
     }
 }

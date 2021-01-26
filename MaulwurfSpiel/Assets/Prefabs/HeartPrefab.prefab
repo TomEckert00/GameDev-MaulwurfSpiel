@@ -90,3 +90,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsIfMissed: 0
   pointsIfDestroyed: 0
+  spawnRatePercent: 5

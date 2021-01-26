@@ -19,9 +19,15 @@ public class GameManager : MonoBehaviour
 
     private int score;
     private int currentLives;
-    private int streak;
     private int currentMultiplier;
     private bool isGameActive = false;
+    private int streak;
+
+    public int CurrentMultiplier
+    {
+        get { return currentMultiplier; }
+        set {; }
+    }
 
     public bool IsGameActive
     {

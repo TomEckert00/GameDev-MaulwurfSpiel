@@ -5,25 +5,46 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    private float spawnDelay = 1.0f;
     public GameObject[] spawnObjects;
+    private List<GameObject> spawnPoolList = new List<GameObject>();
+    private GameObject[] spawnPool;
 
     public GameManager gameManager;
 
     public bool gameIsActive;
 
-    private int spawnObjectsInGame;
-
-    public int SpawnObjectsInGame
-    {
-        get { return spawnObjectsInGame; }
-        set { spawnObjectsInGame = value; }
-    }
+    public int SpawnObjectsInGame { get; set; }
 
     public void StartSpawningLoop()
     {
-        spawnObjectsInGame = 0;
+        SpawnObjectsInGame = 0;
         GetGameStatusFromGameManager();
         StartCoroutine(StartGameLoop());
+    }
+
+    void Start()
+    {
+        Debug.Log("Awake");
+        StartCoroutine(FillSpawnPool());
+    }
+
+    private IEnumerator FillSpawnPool()
+    {
+        yield return new WaitForEndOfFrame();
+        foreach (GameObject spawnObject in spawnObjects)
+        {
+            Debug.Log("SpawnObject: " + spawnObject.name);
+            int spawnRate = spawnObject.GetComponent<SpawnObject>().SpawnRatePercent;
+            Debug.Log("SpawnRate: " + spawnRate);
+            for (int j = 0; j < spawnRate; j++)
+            {
+                spawnPoolList.Add(spawnObject);
+            }
+        }
+        Debug.Log("Liste: " + spawnPoolList.Count);
+        spawnPool = spawnPoolList.ToArray();
+        Debug.Log("Länge" + spawnPool.Length);
     }
 
     IEnumerator StartGameLoop()
@@ -34,7 +55,7 @@ public class SpawnManager : MonoBehaviour
             GetGameStatusFromGameManager();
            
             //check if all spaces are filled
-            if(spawnObjectsInGame <9 && gameIsActive)
+            if(SpawnObjectsInGame <9 && gameIsActive)
             {
                 int randomIndex = gameManager.GetRandomIndexOfGrid();
                 while (gameManager.IsGridOfIndexFilled(randomIndex))
@@ -47,10 +68,23 @@ public class SpawnManager : MonoBehaviour
             {
                 Debug.Log("board full, nothing spawned");
             }
-            yield return new WaitForSeconds(1);
+            UpdateSpawnDelay();
+            yield return new WaitForSeconds(spawnDelay);
         }
     }
 
+    private void UpdateSpawnDelay()
+    {
+        spawnDelay = 1.0f;
+        int multi = gameManager.CurrentMultiplier;
+        if (multi > 1)
+        {
+            for(int i = 0; i < multi; i++)
+            {
+                spawnDelay -= 0.1f;
+            }
+        }
+    }
     private void SpawnTheObjectWithIndex(int randomIndex)
     {
         Vector3 positionOfSpawnObject = gameManager.GetButtonPositionWithIndex(randomIndex);
@@ -58,13 +92,13 @@ public class SpawnManager : MonoBehaviour
         gameManager.SetGridSpaceContainsSpawnObjectOfIndex(randomIndex, true);
         gameManager.SetSpawnedObjectReferenceInGridSpace(randomIndex, so);
         gameManager.InitiateSelfDestruction(randomIndex);
-        spawnObjectsInGame++;
+        SpawnObjectsInGame++;
     }
 
     private GameObject GetRandomSpawnObject()
     {
-        int randomIndex = UnityEngine.Random.Range(0,spawnObjects.Length);
-        return spawnObjects[randomIndex];
+        int randomIndex = UnityEngine.Random.Range(0,spawnPool.Length);
+        return spawnPool[randomIndex];
     }
 
     private void GetGameStatusFromGameManager()
