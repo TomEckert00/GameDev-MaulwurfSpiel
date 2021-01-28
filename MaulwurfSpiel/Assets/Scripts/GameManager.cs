@@ -8,12 +8,15 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI multiplierText;
-    public TextMeshProUGUI streakText;
     public Text[] lifeSlots = new Text[3];
     public Text[] buttonList;
     public GameObject restartButton;
     public GameObject gameOverPanel;
     public Text gameOverText;
+    public GameObject readyPanel;
+    public Text readyText;
+    public GameObject streakIndicator;
+    private StreakIndicatorScript streakUI;
 
     public SpawnManager spawnManager;
 
@@ -37,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        streakUI = streakIndicator.GetComponent<StreakIndicatorScript>();
+
         InitializeVariablesWithStartValues();
 
         PreparePanelsAndTexts();
@@ -58,11 +63,11 @@ public class GameManager : MonoBehaviour
         foreach (Text slot in lifeSlots){
             slot.text = "";
         }
-        scoreText.SetText("Score: " + score);
-        multiplierText.SetText("Multiplikator: " + currentMultiplier);
-        streakText.SetText("Am Stück: " + streak);
+        scoreText.SetText(score.ToString());
+        multiplierText.SetText("x" + currentMultiplier);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
+
         ClearLifeSlots();
     }
 
@@ -77,9 +82,8 @@ public class GameManager : MonoBehaviour
     {
         if(value > 0) {
             streak += 1;
-            streakText.SetText("Am Stück: " + streak);
             UpdateMultiplier();
-            multiplierText.SetText("Multiplikator: " + currentMultiplier);
+            multiplierText.SetText("x" + currentMultiplier);
             score += value * currentMultiplier;
         }
         else if (value < 0)
@@ -87,11 +91,11 @@ public class GameManager : MonoBehaviour
             score += value;
             if(score <= 0) { score = 0; }
             streak = 0;
-            streakText.SetText("Am Stück: " + streak);
+            streakUI.UpdateStreakPositive(false);
             currentMultiplier = 1;
-            multiplierText.SetText("Multiplikator: " + currentMultiplier);
+            multiplierText.SetText("x" + currentMultiplier);
         }
-        scoreText.SetText("Score: " + score);
+        scoreText.SetText(score.ToString());
     }
 
     private void UpdateMultiplier()
@@ -104,6 +108,10 @@ public class GameManager : MonoBehaviour
         if(currentMultiplier > 8)
         {
             currentMultiplier = 8;
+        }
+        else
+        {
+            streakUI.UpdateStreakPositive(true);
         }
         Debug.Log("Updated Multiplier: " + currentMultiplier);
     }
@@ -149,7 +157,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartGame()
     {
-        yield return new WaitForSeconds(1);
+        readyPanel.SetActive(true);
+        readyText.text = "Ready?";
+        yield return new WaitForSeconds(2);
+        readyText.text = "GO!";
+        yield return new WaitForSeconds(0.5f);
+        readyPanel.SetActive(false);
         if (!isGameActive)
         {
             isGameActive = true;
@@ -163,7 +176,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ClearAllGridSpaces());
         isGameActive = false;
         SetBoardInteractable(false);
-        SetGameOverText("Score:" + score);
+        SetGameOverText(score.ToString());
         UpdateHighScore();
         restartButton.SetActive(true);
     }

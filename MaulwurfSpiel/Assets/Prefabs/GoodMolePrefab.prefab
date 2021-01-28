@@ -61,11 +61,10 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, Unity.ugui,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 9140dcd44615e1c44a13934c4058eb85, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -88,6 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d37625d2fa9361449faf65ec4336639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsIfMissed: 1
+  pointsIfMissed: 0
   pointsIfDestroyed: -10
   spawnRatePercent: 30
